@@ -601,40 +601,6 @@ section{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 .pa-close:hover{ border-color:var(--brass-2); color:var(--brass-2); transform:rotate(90deg); }
 </style>
 <style>
-/* ---------- Why choose us ---------- */
-.why-row{
-  display:grid;
-  grid-template-columns:minmax(0, 6fr) minmax(0, 5fr);
-  gap:clamp(3rem, 7vw, 7.5rem);
-  align-items:center;
-  padding-block:clamp(3.25rem, 6vw, 5.5rem);
-  border-top:1px solid var(--line);
-}
-.why-row:first-of-type{ border-top:0; padding-top:0; }
-.why-row:last-of-type{ padding-bottom:0; }
-.why-row:nth-child(even) .why-fig{ order:-1; }
-.why-copy .fig-no{
-  font-size:.7rem; font-weight:600; letter-spacing:.3em; text-transform:uppercase;
-  color:var(--brass); margin-bottom:1.3rem; display:block;
-}
-.why-copy h3{ font-size:clamp(1.75rem, 3vw, 2.5rem); max-width:16ch; margin-bottom:1.2rem; }
-.why-copy p{ color:var(--ink-2); max-width:52ch; }
-.why-fig{
-  position:relative;
-  background:var(--bg-2);
-  border:1px solid var(--line);
-  aspect-ratio:4/3;
-  display:grid; place-items:center;
-  overflow:hidden;
-}
-.why-fig svg{ width:78%; height:auto; }
-.why-fig .fig-cap{
-  position:absolute; left:1.2rem; bottom:1rem;
-  font-size:.62rem; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--ink-2);
-}
-.why-fig .fig-cap b{ color:var(--brass); font-weight:600; }
-
 /* ---------- Team ---------- */
 .team{ background:var(--dark); color:var(--bg); position:relative; }
 .team .eyebrow{ color:var(--brass-2); }
@@ -895,8 +861,6 @@ section{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   .team-grid{ grid-template-columns:1fr; max-width:26rem; margin-inline:auto; }
   .member-veil{ transform:none; opacity:1; position:static; background:none; padding:1rem 0 0; }
   .member-media img{ filter:grayscale(0); }
-  .why-row{ grid-template-columns:1fr; gap:2rem; }
-  .why-row:nth-child(even) .why-fig{ order:0; }
   .ins{ grid-template-columns:1fr; gap:.7rem; }
   .ins .arr{ display:none; }
   .practice .sect-head, .insights .sect-head{ grid-template-columns:1fr; align-items:start; }
@@ -1047,6 +1011,282 @@ html.js .rv.eyebrow.in::before{ transform:scaleX(1); }
   .curtain{ display:none; }
   #glow{ display:none; }
   .nav[data-hide]{ transform:none; }
+}
+</style>
+<style>
+/* ============================================================
+   THE CHAMBERS FILE — pinned confidential brief
+   + Insights reader
+   ============================================================ */
+
+/* sticky fix: clip instead of hidden so position:sticky survives */
+body{ overflow-x:hidden; overflow-x:clip; }
+
+.brief{ position:relative; background:#0D0C0A; }
+.brief-pin{ height:720vh; }
+.brief-stage{
+  position:sticky; top:0; height:100svh; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(75% 55% at 50% -5%, rgba(212,178,124,.13), transparent 62%),
+    radial-gradient(130% 100% at 50% 115%, rgba(0,0,0,.6), transparent 55%),
+    linear-gradient(180deg, #141210 0%, #0C0B09 100%);
+  contain:paint;
+}
+.brief-kicker{
+  position:absolute; top:calc(var(--nav-h) + 1.4rem); left:0; right:0;
+  margin-inline:auto; width:fit-content;
+  display:flex; align-items:center; gap:1rem;
+  font-size:.68rem; font-weight:600; letter-spacing:.34em; text-transform:uppercase;
+  color:rgba(212,178,124,.78);
+}
+.brief-kicker::before, .brief-kicker::after{
+  content:""; width:2.4rem; height:1px; background:rgba(212,178,124,.45); flex:none;
+}
+.brief-persp{ perspective:2100px; }
+.brief-book{
+  position:relative;
+  width:min(29rem, 86vw, 56vh);
+  aspect-ratio:3/4;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.book-base{
+  position:absolute; inset:0; transform:translateZ(-8px);
+  background:linear-gradient(160deg, #E9E4DC, #DDD6CB);
+  box-shadow:
+    3px 3px 0 rgba(221,214,204,.9),
+    6px 6px 0 rgba(206,198,186,.65),
+    24px 38px 80px rgba(0,0,0,.62);
+}
+.book-cast{
+  position:absolute; inset:0; pointer-events:none; opacity:0; z-index:2;
+  background:radial-gradient(70% 65% at 42% 52%, transparent 45%, rgba(0,0,0,.55) 100%);
+  transition:opacity .3s linear;
+}
+.sheet{
+  position:absolute; inset:0;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.sheet.cover{ z-index:40; }
+.sheet[data-idx="1"]{ z-index:39; }
+.sheet[data-idx="2"]{ z-index:38; }
+.sheet[data-idx="3"]{ z-index:37; }
+.sheet[data-idx="4"]{ z-index:36; }
+.sheet[data-idx="5"]{ z-index:35; }
+.face{
+  position:absolute; inset:0; overflow:hidden;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+}
+.face.back{ transform:rotateY(180deg); visibility:hidden; }
+.face.front::before{
+  content:""; position:absolute; inset:0; z-index:9; pointer-events:none;
+  background:
+    linear-gradient(105deg, rgba(255,252,245,calc(var(--sheen, 0) * .42)) 6%, transparent 30%),
+    linear-gradient(265deg, rgba(10,7,4,calc(var(--sh, 0) * .38)) 0%, transparent 44%),
+    linear-gradient(265deg, rgba(10,7,4,calc(var(--cast, 0) * .3)) 0%, transparent 52%);
+}
+
+/* --- cover --- */
+.cov-front{
+  background:
+    radial-gradient(120% 90% at 30% 10%, #1C1712, #0F0D0A 62%),
+    linear-gradient(160deg, #171310, #0D0B09);
+  color:var(--brass-2);
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(1rem, 3vh, 2rem);
+}
+.cov-frame{
+  width:100%; height:100%;
+  border:1px solid rgba(212,178,124,.42);
+  outline:1px solid rgba(212,178,124,.14); outline-offset:5px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(.65rem, 1.8vh, 1.15rem);
+  text-align:center; padding:clamp(1rem, 3vh, 1.8rem);
+}
+.cov-firm{
+  font-family:var(--serif); font-size:clamp(1.15rem, 3.2vh, 1.7rem);
+  letter-spacing:.04em; text-shadow:0 1px 0 rgba(0,0,0,.7);
+}
+.cov-firm span{ color:var(--brass); }
+.cov-conf{
+  font-size:clamp(.54rem, 1.4vh, .66rem); letter-spacing:.5em; text-transform:uppercase;
+  color:rgba(212,178,124,.9);
+  border-top:1px solid rgba(212,178,124,.3); border-bottom:1px solid rgba(212,178,124,.3);
+  padding:.55em .6em .55em 1.1em;
+}
+.cov-seal{ width:clamp(3.2rem, 9vh, 4.5rem); opacity:.92; }
+.cov-meta{ display:grid; gap:.32rem; font-size:clamp(.52rem, 1.3vh, .62rem); letter-spacing:.18em; text-transform:uppercase; color:rgba(231,214,183,.78); }
+.cov-meta div{ display:flex; gap:.8rem; justify-content:center; }
+.cov-meta dt{ color:rgba(212,178,124,.55); font-weight:400; }
+.cov-foot{ font-size:clamp(.48rem, 1.2vh, .58rem); letter-spacing:.3em; text-transform:uppercase; color:rgba(231,214,183,.45); }
+.cov-back{
+  background:linear-gradient(160deg, #14110E, #0E0C0A);
+  display:grid; place-items:center; text-align:center;
+  color:rgba(212,178,124,.5);
+  font-size:.62rem; letter-spacing:.28em; text-transform:uppercase; line-height:2.2;
+  padding:2rem;
+}
+
+/* --- pages --- */
+.pg{
+  background:linear-gradient(160deg, #F8F7F4 0%, #EFECE6 100%);
+  color:var(--ink);
+  display:flex; flex-direction:column;
+  padding:clamp(1rem, 3vh, 1.8rem) clamp(1rem, 2.8vh, 1.7rem) clamp(.85rem, 2.4vh, 1.3rem) clamp(1.5rem, 4.2vh, 2.4rem);
+}
+.pg::after{ z-index:1; }
+.pg > *{ position:relative; z-index:2; }
+.pg::before{
+  content:""; position:absolute; top:0; bottom:0; left:clamp(1rem, 2.8vh, 1.7rem);
+  width:1px; background:rgba(161,118,60,.35); z-index:1;
+}
+.pg-head{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;
+  font-size:clamp(.46rem, 1.15vh, .58rem); letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2);
+}
+.pg-meta{ display:grid; gap:.18rem; }
+.pg-no{ color:var(--brass); white-space:nowrap; }
+.pg-no em{ font-style:italic; text-transform:none; letter-spacing:.05em; }
+.pg-body{ margin-top:clamp(.9rem, 3vh, 1.6rem); }
+.pg-ch{
+  font-size:clamp(.5rem, 1.3vh, .62rem); letter-spacing:.3em; text-transform:uppercase;
+  color:var(--brass); margin-bottom:clamp(.5rem, 1.6vh, .9rem);
+}
+.pg-title{
+  font-family:var(--serif); font-weight:400;
+  font-size:clamp(1.05rem, 3.7vh, 1.9rem); line-height:1.12;
+  max-width:15ch; margin-bottom:clamp(.6rem, 2vh, 1rem);
+}
+.pg-text{
+  font-size:clamp(.67rem, 1.85vh, .9rem); line-height:1.72;
+  color:var(--ink-2); max-width:36ch;
+}
+.pg-fig{ position:absolute; right:clamp(.8rem, 2.4vh, 1.4rem); bottom:clamp(2rem, 6vh, 3rem); width:52%; margin:0; z-index:2; }
+.pg-fig svg{ width:100%; height:auto; display:block; }
+.pg-fig figcaption{
+  margin-top:.4rem; text-align:right;
+  font-size:clamp(.42rem, 1.1vh, .55rem); letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2);
+}
+.pg-foot{
+  margin-top:auto; display:flex; align-items:center; gap:1rem;
+  font-size:clamp(.44rem, 1.15vh, .55rem); letter-spacing:.24em; text-transform:uppercase; color:var(--ink-2);
+}
+.pg-foot .pg-rule{ flex:1; height:1px; background:var(--line); }
+.verso{
+  background:linear-gradient(200deg, #F3F1EC, #E9E5DE);
+  display:grid; place-items:center;
+  color:rgba(92,92,92,.32);
+  font-size:.6rem; letter-spacing:.4em; text-transform:uppercase;
+}
+
+/* --- stage ui --- */
+.brief-ui{
+  position:absolute; bottom:clamp(1.2rem, 3.5vh, 2.2rem); left:0; right:0;
+  display:flex; flex-direction:column; align-items:center; gap:.7rem;
+  color:rgba(247,246,243,.55);
+  font-size:.6rem; letter-spacing:.3em; text-transform:uppercase;
+}
+.brief-count{ color:rgba(212,178,124,.9); }
+.brief-hintline{ display:flex; align-items:center; gap:.8rem; transition:opacity .8s var(--ease); }
+.brief-hintline i{
+  width:3.4rem; height:1px; background:rgba(247,246,243,.22);
+  position:relative; overflow:hidden; display:block;
+}
+.brief-hintline i::after{
+  content:""; position:absolute; top:0; left:-40%; width:40%; height:1px;
+  background:var(--brass-2);
+  animation:hintslide 2.4s var(--ease-io) infinite;
+}
+@keyframes hintslide{ 60%{ left:100%; } 100%{ left:100%; } }
+
+@media (max-width:52rem){
+  .brief-pin{ height:640vh; }
+  .brief-book{ width:min(88vw, 52vh); }
+  .pg-fig{ width:56%; }
+}
+
+/* --- static fallback: reduced motion or no JS --- */
+@media (prefers-reduced-motion: reduce){
+  .brief-pin{ height:auto; }
+  .brief-stage{ position:static; height:auto; padding:5rem 1rem; }
+  .brief-persp{ perspective:none; width:100%; display:grid; justify-items:center; }
+  .brief-book{ width:min(30rem, 92vw); aspect-ratio:auto; display:grid; gap:2rem; }
+  .sheet{ position:relative; inset:auto; transform:none !important; }
+  .sheet .face.back{ display:none; }
+  .sheet .face.front{ position:relative; aspect-ratio:3/4; }
+  .book-base, .book-cast, .brief-ui{ display:none; }
+  .brief-kicker{ position:static; margin-bottom:2.5rem; }
+}
+html:not(.js) .brief-pin{ height:auto; }
+html:not(.js) .brief-stage{ position:static; height:auto; padding:5rem 1rem; }
+html:not(.js) .brief-persp{ perspective:none; width:100%; display:grid; justify-items:center; }
+html:not(.js) .brief-book{ width:min(30rem, 92vw); aspect-ratio:auto; display:grid; gap:2rem; }
+html:not(.js) .sheet{ position:relative; inset:auto; transform:none !important; }
+html:not(.js) .sheet .face.back{ display:none; }
+html:not(.js) .sheet .face.front{ position:relative; aspect-ratio:3/4; }
+html:not(.js) .book-base, html:not(.js) .book-cast, html:not(.js) .brief-ui{ display:none; }
+html:not(.js) .brief-kicker{ position:static; margin-bottom:2.5rem; }
+
+/* ============ Insights reader ============ */
+.reader{
+  position:fixed; inset:0; z-index:118;
+  display:flex; align-items:center; justify-content:center;
+  padding:1.2rem;
+}
+.reader[data-hidden]{ pointer-events:none; visibility:hidden; transition:visibility .7s; }
+.reader-scrim{
+  position:absolute; inset:0;
+  background:rgba(10,9,8,.72);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  opacity:1; transition:opacity .6s var(--ease);
+}
+.reader[data-hidden] .reader-scrim{ opacity:0; }
+.reader-panel{
+  position:relative;
+  width:min(45rem, 100%); max-height:min(88vh, 52rem); overflow:auto;
+  background:var(--bg);
+  padding:clamp(2rem, 5vw, 3.5rem);
+  box-shadow:0 3rem 6rem rgba(0,0,0,.42);
+  transform:translateY(0); opacity:1;
+  transition:transform .8s var(--ease), opacity .6s var(--ease);
+}
+.reader[data-hidden] .reader-panel{ transform:translateY(1.6rem); opacity:0; }
+.reader-panel::before{
+  content:""; position:absolute; inset:.65rem;
+  border:1px solid var(--line); pointer-events:none;
+}
+.reader-close{
+  position:absolute; top:1.1rem; right:1.1rem;
+  width:2.5rem; height:2.5rem; display:grid; place-items:center;
+  border:1px solid var(--line); background:var(--bg); z-index:3;
+  transition:border-color .4s, color .4s, transform .5s var(--ease);
+}
+.reader-close:hover{ border-color:var(--brass); color:var(--brass); transform:rotate(90deg); }
+.reader-head{
+  display:flex; gap:1.1rem; align-items:baseline;
+  font-size:.66rem; font-weight:600; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--brass); margin-bottom:1.3rem;
+}
+.reader-head time{ color:var(--ink-2); }
+.reader-panel h2{ font-size:clamp(1.7rem, 3.6vw, 2.5rem); max-width:18ch; margin-bottom:1.5rem; }
+.reader-body p{
+  color:var(--ink-2); font-size:.98rem; line-height:1.85;
+  margin-bottom:1.15rem; max-width:60ch;
+}
+.reader-body p:first-child::first-letter{
+  font-family:var(--serif); font-size:3.1em; float:left; line-height:.82;
+  padding:.05em .12em 0 0; color:var(--brass);
+}
+.reader-sign{ margin-top:1.5rem; font-family:var(--serif); font-style:italic; font-size:1.08rem; }
+.reader-note{
+  margin-top:1.1rem; padding-top:1.1rem; border-top:1px solid var(--line);
+  font-size:.7rem; letter-spacing:.05em; line-height:1.7; color:var(--ink-2);
+}
+@media (prefers-reduced-motion: reduce){
+  .reader, .reader-scrim, .reader-panel{ transition:none; }
 }
 </style>
 </head>
@@ -1348,23 +1588,53 @@ body.entered .hero-photo{ transform:scale(1.001); }
   </div>
 </section>
 
-<!-- ==================== WHY CHOOSE US ==================== -->
-<section class="sect" id="why" aria-label="How the firm works">
-  <div class="wrap">
-    <div class="sect-head">
-      <p class="eyebrow rv">How We Work</p>
-      <h2><span class="rv-line" style="--d:.1s"><span>Five figures that explain</span></span>
-          <span class="rv-line" style="--d:.22s"><span>every matter we <em>take.</em></span></span></h2>
-    </div>
-
-    <div class="why-row">
-      <div class="why-copy rv" style="--d:.1s">
-        <span class="fig-no">Fig. 01 — The long view</span>
-        <h3>Experience that has seen the argument before.</h3>
-        <p>Thirty years of practice means very few situations arrive at the chambers for the first time. Trial strategy, appellate posture, the temperament of a particular forum — these are judgements formed over decades, applied to your matter on day one.</p>
-      </div>
-      <div class="why-fig rv-scale rv grain" style="--d:.2s">
-        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<!-- ==================== HOW WE WORK · THE CHAMBERS FILE ==================== -->
+<section class="brief" id="why" aria-label="How the firm works — the chambers file">
+  <div class="brief-pin">
+    <div class="brief-stage grain">
+      <p class="brief-kicker rv">How We Work</p>
+      <div class="brief-persp">
+        <div class="brief-book" id="brief-book">
+          <div class="book-base" aria-hidden="true"></div>
+          <div class="sheet cover" data-idx="0">
+            <div class="face front cov-front grain">
+              <div class="cov-frame">
+                <p class="cov-firm">Baath <span>&amp;</span> Associates</p>
+                <p class="cov-conf">Confidential</p>
+                <svg class="cov-seal" viewBox="0 0 120 120" fill="none" stroke="#D4B27C" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="60" cy="60" r="46" stroke-opacity=".8"/>
+                  <circle cx="60" cy="60" r="38" stroke-opacity=".35"/>
+                  <path d="M60 8 v10 M60 102 v10 M8 60 h10 M102 60 h10" stroke-opacity=".5"/>
+                  <text x="60" y="70" text-anchor="middle" font-family="Instrument Serif, Georgia, serif" font-size="30" fill="#D4B27C" stroke="none">B&amp;A</text>
+                </svg>
+                <dl class="cov-meta">
+                  <div><dt>Matter No.</dt><dd>BA-2026-001</dd></div>
+                  <div><dt>Chambers Ref.</dt><dd>B&amp;A/PHHC</dd></div>
+                  <div><dt>Classification</dt><dd>Privileged &amp; Confidential</dd></div>
+                  <div><dt>Prepared</dt><dd>For Client Review</dd></div>
+                </dl>
+                <p class="cov-foot">Attorney Work Product · Chambers Copy</p>
+              </div>
+            </div>
+            <div class="face back cov-back grain"><p>Privileged &amp; Confidential<br>Attorney Work Product</p></div>
+          </div>
+        <div class="sheet page" data-idx="1">
+          <div class="face front pg grain">
+            <header class="pg-head">
+              <div class="pg-meta">
+                <span>Matter No. BA-2026-001</span>
+                <span>Chambers Ref. B&amp;A/PHHC</span>
+                <span>Privileged &amp; Confidential</span>
+              </div>
+              <span class="pg-no">Page 01 <em>of</em> 05</span>
+            </header>
+            <div class="pg-body">
+              <p class="pg-ch">Chapter 01 — Experience</p>
+              <h3 class="pg-title">Experience that has seen the argument before.</h3>
+              <p class="pg-text">Very little arrives at these chambers for the first time. Thirty years of trial strategy, appellate posture and the temperament of each forum are judgements formed over decades — and applied to your matter from day one.</p>
+            </div>
+            <figure class="pg-fig" data-page="1">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <g stroke="#111" fill="none" stroke-opacity=".55">
             <path d="M28 50 C 120 38, 280 38, 372 50"/>
             <path d="M32 58 C 122 47, 278 47, 368 58" stroke-opacity=".28"/>
@@ -1389,18 +1659,29 @@ body.entered .hero-photo{ transform:scale(1.001); }
             <path d="M36 187 v10 M364 187 v10 M200 189 v6" stroke-opacity=".5"/>
           </g>
         </svg>
-        <span class="fig-cap"><b>Fig. 01</b> · Elevation, entire</span>
-      </div>
-    </div>
-
-    <div class="why-row">
-      <div class="why-copy rv" style="--d:.1s">
-        <span class="fig-no">Fig. 02 — The point of attack</span>
-        <h3>Strategy chosen before the first filing.</h3>
-        <p>A matter can usually be fought on five grounds; it should be fought on the right one. We map the whole dispute — forum, limitation, evidence, the opponent's likely course — and commit to the line that wins, not the one that merely occupies the court's time.</p>
-      </div>
-      <div class="why-fig rv-scale rv grain" style="--d:.2s">
-        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <figcaption>Fig. 01 · Elevation, entire</figcaption>
+            </figure>
+            <footer class="pg-foot"><span>Prepared by Chambers</span><span class="pg-rule"></span></footer>
+          </div>
+          <div class="face back verso grain"><span>B&amp;A / PHHC</span></div>
+        </div>
+        <div class="sheet page" data-idx="2">
+          <div class="face front pg grain">
+            <header class="pg-head">
+              <div class="pg-meta">
+                <span>Matter No. BA-2026-001</span>
+                <span>Chambers Ref. B&amp;A/PHHC</span>
+                <span>Privileged &amp; Confidential</span>
+              </div>
+              <span class="pg-no">Page 02 <em>of</em> 05</span>
+            </header>
+            <div class="pg-body">
+              <p class="pg-ch">Chapter 02 — Strategy</p>
+              <h3 class="pg-title">The point of attack, chosen early.</h3>
+              <p class="pg-text">A matter can usually be fought on five grounds; it should be fought on the right one. We map the dispute — forum, limitation, evidence, the opponent's likely course — and commit to the line that wins.</p>
+            </div>
+            <figure class="pg-fig" data-page="2">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <g stroke="#111" stroke-opacity=".15" fill="none">
             <path d="M52 36 V184 M92 36 V184 M132 36 V184 M172 36 V184 M212 36 V184 M252 36 V184 M292 36 V184 M332 36 V184 M368 36 V184"/>
             <path d="M52 36 H368 M52 73 H368 M52 110 H368 M52 147 H368 M52 184 H368"/>
@@ -1419,18 +1700,29 @@ body.entered .hero-photo{ transform:scale(1.001); }
             <path d="M52 195 v10 M368 195 v10 M232 196 v8" stroke-opacity=".5"/>
           </g>
         </svg>
-        <span class="fig-cap"><b>Fig. 02</b> · Detail, selected cell</span>
-      </div>
-    </div>
-
-    <div class="why-row">
-      <div class="why-copy rv" style="--d:.1s">
-        <span class="fig-no">Fig. 03 — The sealed wall</span>
-        <h3>Confidentiality, kept the old-fashioned way.</h3>
-        <p>Instructions, documents and conferences stay inside the chambers. Files are discussed with no one beyond the team on the matter; opinions are given to the client and to no other. Discretion is not a policy here — it is a habit of thirty years.</p>
-      </div>
-      <div class="why-fig rv-scale rv grain" style="--d:.2s">
-        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <figcaption>Fig. 02 · Detail, selected cell</figcaption>
+            </figure>
+            <footer class="pg-foot"><span>Internal Memorandum</span><span class="pg-rule"></span></footer>
+          </div>
+          <div class="face back verso grain"><span>B&amp;A / PHHC</span></div>
+        </div>
+        <div class="sheet page" data-idx="3">
+          <div class="face front pg grain">
+            <header class="pg-head">
+              <div class="pg-meta">
+                <span>Matter No. BA-2026-001</span>
+                <span>Chambers Ref. B&amp;A/PHHC</span>
+                <span>Privileged &amp; Confidential</span>
+              </div>
+              <span class="pg-no">Page 03 <em>of</em> 05</span>
+            </header>
+            <div class="pg-body">
+              <p class="pg-ch">Chapter 03 — Confidentiality</p>
+              <h3 class="pg-title">What is said here, stays here.</h3>
+              <p class="pg-text">Instructions, documents and conferences remain inside the chambers. Files are discussed with no one beyond the team on the matter; opinions are given to the client and to no other. Discretion is a thirty-year habit.</p>
+            </div>
+            <figure class="pg-fig" data-page="3">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <g stroke="#111" fill="none" stroke-opacity=".55">
             <rect x="164" y="30" width="72" height="158"/>
             <path d="M170 188 L232 40 M164 162 L200 34 M198 188 L236 66 M164 122 L186 34 M214 188 L236 112 M164 80 L176 34 M228 188 L236 160" stroke-opacity=".24"/>
@@ -1446,18 +1738,29 @@ body.entered .hero-photo{ transform:scale(1.001); }
             <path d="M120 197 v10 M280 197 v10" stroke-opacity=".5"/>
           </g>
         </svg>
-        <span class="fig-cap"><b>Fig. 03</b> · Section, closed</span>
-      </div>
-    </div>
-
-    <div class="why-row">
-      <div class="why-copy rv" style="--d:.1s">
-        <span class="fig-no">Fig. 04 — The forum</span>
-        <h3>Courtroom advocacy as a craft.</h3>
-        <p>Written pleadings open the door; the hearing walks through it. Arguments at Baath &amp; Associates are rehearsed, compressed, and led from the strongest proposition — because a judge's attention is the scarcest resource in any courtroom, and it is never wasted.</p>
-      </div>
-      <div class="why-fig rv-scale rv grain" style="--d:.2s">
-        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <figcaption>Fig. 03 · Section, closed</figcaption>
+            </figure>
+            <footer class="pg-foot"><span>Attorney Notes</span><span class="pg-rule"></span></footer>
+          </div>
+          <div class="face back verso grain"><span>B&amp;A / PHHC</span></div>
+        </div>
+        <div class="sheet page" data-idx="4">
+          <div class="face front pg grain">
+            <header class="pg-head">
+              <div class="pg-meta">
+                <span>Matter No. BA-2026-001</span>
+                <span>Chambers Ref. B&amp;A/PHHC</span>
+                <span>Privileged &amp; Confidential</span>
+              </div>
+              <span class="pg-no">Page 04 <em>of</em> 05</span>
+            </header>
+            <div class="pg-body">
+              <p class="pg-ch">Chapter 04 — Advocacy</p>
+              <h3 class="pg-title">The hearing is the craft.</h3>
+              <p class="pg-text">Written pleadings open the door; the hearing walks through it. Arguments are rehearsed, compressed, and led from the strongest proposition — because a judge's attention is the scarcest resource in any courtroom.</p>
+            </div>
+            <figure class="pg-fig" data-page="4">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <g stroke="#111" fill="none" stroke-opacity=".55">
             <path d="M56 44 C 150 32, 250 32, 344 44"/>
             <path d="M64 60 q42 -24 84 0 q42 -24 84 0 q42 -24 84 0" stroke-opacity=".38"/>
@@ -1473,18 +1776,29 @@ body.entered .hero-photo{ transform:scale(1.001); }
             <path d="M136 199 v10 M264 199 v10 M200 200 v8" stroke-opacity=".5"/>
           </g>
         </svg>
-        <span class="fig-cap"><b>Fig. 04</b> · Portico, three pylons</span>
-      </div>
-    </div>
-
-    <div class="why-row">
-      <div class="why-copy rv" style="--d:.1s">
-        <span class="fig-no">Fig. 05 — The open hand</span>
-        <h3>A client's counsel first, always reachable.</h3>
-        <p>Litigation is lived by the client, not just argued by the lawyer. You will always know where your matter stands, what the next date holds, and what we honestly think of your chances. Chandigarh's own emblem is the open hand — we take the point.</p>
-      </div>
-      <div class="why-fig rv-scale rv grain" style="--d:.2s">
-        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <figcaption>Fig. 04 · Portico, three pylons</figcaption>
+            </figure>
+            <footer class="pg-foot"><span>Internal Memorandum</span><span class="pg-rule"></span></footer>
+          </div>
+          <div class="face back verso grain"><span>B&amp;A / PHHC</span></div>
+        </div>
+        <div class="sheet page" data-idx="5">
+          <div class="face front pg grain">
+            <header class="pg-head">
+              <div class="pg-meta">
+                <span>Matter No. BA-2026-001</span>
+                <span>Chambers Ref. B&amp;A/PHHC</span>
+                <span>Privileged &amp; Confidential</span>
+              </div>
+              <span class="pg-no">Page 05 <em>of</em> 05</span>
+            </header>
+            <div class="pg-body">
+              <p class="pg-ch">Chapter 05 — Client First</p>
+              <h3 class="pg-title">Your counsel first. Always reachable.</h3>
+              <p class="pg-text">Litigation is lived by the client, not merely argued by the lawyer. You will always know where your matter stands, what the next date holds, and what we honestly think of your chances.</p>
+            </div>
+            <figure class="pg-fig" data-page="5">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <g stroke="#111" fill="none" stroke-opacity=".55">
             <path d="M104 92 q96 -66 192 0"/>
             <path d="M104 128 q96 66 192 0"/>
@@ -1499,11 +1813,23 @@ body.entered .hero-photo{ transform:scale(1.001); }
             <path d="M120 185 v10 M280 185 v10" stroke-opacity=".5"/>
           </g>
         </svg>
-        <span class="fig-cap"><b>Fig. 05</b> · Two curves, held open</span>
+              <figcaption>Fig. 05 · Two curves, held open</figcaption>
+            </figure>
+            <footer class="pg-foot"><span>Prepared by Chambers</span><span class="pg-rule"></span></footer>
+          </div>
+          <div class="face back verso grain"><span>B&amp;A / PHHC</span></div>
+        </div>
+        </div>
+      </div>
+      <div class="book-cast" aria-hidden="true"></div>
+      <div class="brief-ui" aria-hidden="true">
+        <span class="brief-count" id="brief-count">Cover</span>
+        <span class="brief-hintline"><i></i>Scroll to open the file</span>
       </div>
     </div>
   </div>
 </section>
+
 <!-- ==================== TEAM ==================== -->
 <section class="team sect" id="team">
   <div class="wrap">
@@ -1627,22 +1953,22 @@ body.entered .hero-photo{ transform:scale(1.001); }
     </div>
 
     <div class="ins-list">
-      <a class="ins rv" style="--d:.05s" href="#insights" aria-label="Read: Anticipatory bail under the BNSS">
+      <a class="ins rv" style="--d:.05s" href="#insights" data-ins="bnss" aria-haspopup="dialog" aria-label="Read: Anticipatory bail under the BNSS">
         <div class="ins-meta"><time datetime="2026-05">May 2026</time><span>Criminal</span></div>
         <h3>Anticipatory bail under the BNSS: what has actually changed</h3>
         <span class="arr" aria-hidden="true">→</span>
       </a>
-      <a class="ins rv" style="--d:.1s" href="#insights" aria-label="Read: Seniority and promotion before the Punjab and Haryana High Court">
+      <a class="ins rv" style="--d:.1s" href="#insights" data-ins="service" aria-haspopup="dialog" aria-label="Read: Seniority and promotion before the Punjab and Haryana High Court">
         <div class="ins-meta"><time datetime="2026-03">March 2026</time><span>Service</span></div>
         <h3>Seniority, promotion, and the service jurisprudence of the High Court</h3>
         <span class="arr" aria-hidden="true">→</span>
       </a>
-      <a class="ins rv" style="--d:.15s" href="#insights" aria-label="Read: Buying agricultural land in Punjab">
+      <a class="ins rv" style="--d:.15s" href="#insights" data-ins="land" aria-haspopup="dialog" aria-label="Read: Buying agricultural land in Punjab">
         <div class="ins-meta"><time datetime="2026-02">February 2026</time><span>Property</span></div>
         <h3>Buying agricultural land in Punjab: the due-diligence file</h3>
         <span class="arr" aria-hidden="true">→</span>
       </a>
-      <a class="ins rv" style="--d:.2s" href="#insights" aria-label="Read: When a cheque bounces">
+      <a class="ins rv" style="--d:.2s" href="#insights" data-ins="cheque" aria-haspopup="dialog" aria-label="Read: When a cheque bounces">
         <div class="ins-meta"><time datetime="2026-01">January 2026</time><span>Recovery</span></div>
         <h3>When a cheque bounces: the timeline that decides the case</h3>
         <span class="arr" aria-hidden="true">→</span>
@@ -1696,6 +2022,19 @@ body.entered .hero-photo{ transform:scale(1.001); }
     </div>
   </div>
 </section>
+
+<!-- ==================== INSIGHTS READER ==================== -->
+<div class="reader" id="reader" role="dialog" aria-modal="true" aria-labelledby="reader-title" data-hidden>
+  <div class="reader-scrim" data-close></div>
+  <article class="reader-panel grain">
+    <button class="reader-close" data-close aria-label="Close article">✕</button>
+    <div class="reader-head"><time id="reader-date"></time><span id="reader-cat"></span></div>
+    <h2 id="reader-title"></h2>
+    <div class="reader-body" id="reader-body"></div>
+    <p class="reader-sign">— Baath &amp; Associates, Chambers</p>
+    <p class="reader-note">A note from the chambers, shared as general information — not legal advice, and no substitute for counsel on your own facts.</p>
+  </article>
+</div>
 </main>
 
 <!-- ==================== FOOTER ==================== -->
@@ -1755,7 +2094,7 @@ body.entered .hero-photo{ transform:scale(1.001); }
   function clamp(v,a,b){ return v<a ? a : v>b ? b : v; }
 
   /* ============ P0 · DOM preparation ============ */
-  doc.querySelectorAll(".why-fig, .about-media").forEach(function(box){
+  doc.querySelectorAll(".pg-fig, .about-media").forEach(function(box){
     box.classList.add("draws");
     var i = 0;
     box.querySelectorAll("path, circle, rect").forEach(function(el){
@@ -1797,7 +2136,7 @@ body.entered .hero-photo{ transform:scale(1.001); }
 
   var curtains = [];
   if (!reduce){
-    [["#team", "var(--bg-2)"], ["section.cta", "var(--bg)"]].forEach(function(cfg){
+    [["section.cta", "var(--bg)"]].forEach(function(cfg){
       var sec = doc.querySelector(cfg[0]); if (!sec) return;
       var c = doc.createElement("div"); c.className = "curtain";
       c.style.background = cfg[1];
@@ -2071,6 +2410,67 @@ body.entered .hero-photo{ transform:scale(1.001); }
     curtains.forEach(function(c){ c.p = -1; });
   }, { passive: true });
 
+  /* ============ The Chambers File — pinned confidential brief ============ */
+  var briefPin = doc.querySelector(".brief-pin");
+  var briefBook = doc.getElementById("brief-book");
+  var bookCast = doc.querySelector(".book-cast");
+  var briefCount = doc.getElementById("brief-count");
+  var briefHint = doc.querySelector(".brief-hintline");
+  var briefSheets = briefBook ? Array.prototype.slice.call(briefBook.querySelectorAll(".sheet")) : [];
+  var briefFaces = briefSheets.map(function(sh){
+    return { f: sh.querySelector(".face.front"), b: sh.querySelector(".face.back"), state: -1 };
+  });
+  var pageFigs = {};
+  doc.querySelectorAll(".pg-fig").forEach(function(f){ pageFigs[f.getAttribute("data-page")] = f; });
+  var BRIEF_LABELS = ["Cover", "Page 01 of 05", "Page 02 of 05", "Page 03 of 05", "Page 04 of 05", "Page 05 of 05"];
+  var bs = { cur: 0, c: 0, lastTgt: 0 };
+  function easeIO(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function playSound(name){ /* sound hook — drop <audio data-sound="..."> in later and play here; silent by design */ }
+  function updateBrief(){
+    if (!briefBook) return;
+    var r = briefPin.getBoundingClientRect();
+    if (r.bottom < -100 || r.top > vh + 100) return;
+    var span = r.height - vh;
+    if (span <= 0) return;
+    var raw = clamp(-r.top / span, 0, 1) * 6.7;
+    var tgt = Math.min(5, Math.round(Math.min(raw, 5)));
+    if (tgt !== bs.lastTgt){ playSound(tgt > bs.lastTgt ? "page-forward" : "page-back"); bs.lastTgt = tgt; }
+    bs.cur += (tgt - bs.cur) * .085;
+    if (Math.abs(tgt - bs.cur) < .001) bs.cur = tgt;
+    var closeRaw = clamp((raw - 5.6) / 1.0, 0, 1);
+    bs.c += (closeRaw - bs.c) * .1;
+    var cE = easeIO(bs.c);
+    var openF = easeIO(clamp(bs.cur, 0, 1));
+    briefBook.style.transform = "translate3d(" + (openF * 11 * (1 - cE)).toFixed(2) + "%," + (cE * 16).toFixed(2) + "vh,0) scale(" + (1 - cE * .05).toFixed(3) + ")";
+    var castMax = 0;
+    for (var i = 0; i < briefSheets.length; i++){
+      var f = clamp(bs.cur - i, 0, 1) * (1 - cE);
+      var e2 = easeIO(f);
+      var sn = Math.sin(e2 * Math.PI);
+      var settled = e2 >= .985;
+      var fc = briefFaces[i];
+      var st = e2 > .5 ? 1 : 0;
+      if (fc.state !== st){
+        fc.state = st;
+        if (fc.f) fc.f.style.visibility = st ? "hidden" : "visible";
+        if (fc.b) fc.b.style.visibility = st ? "visible" : "hidden";
+      }
+      var rz = -sn * .9 + (settled ? (i * .4 - .8) : 0);
+      briefSheets[i].style.transform = "translateZ(" + (sn * 26).toFixed(1) + "px) rotateY(" + (-180 * e2).toFixed(2) + "deg) rotateZ(" + rz.toFixed(2) + "deg) scaleX(" + (1 - sn * .05).toFixed(3) + ")";
+      briefSheets[i].style.zIndex = (e2 > .015 && e2 < .985) ? 60 : (settled ? 10 + i : 40 - i);
+      briefSheets[i].style.setProperty("--sh", (sn * .9).toFixed(3));
+      briefSheets[i].style.setProperty("--sheen", sn.toFixed(3));
+      if (sn > castMax) castMax = sn;
+    }
+    briefBook.style.setProperty("--cast", (castMax * .8).toFixed(3));
+    if (bookCast) bookCast.style.opacity = (castMax * .22).toFixed(3);
+    var vis = Math.round(clamp(bs.cur, 0, 5));
+    if (briefCount && briefCount.textContent !== BRIEF_LABELS[vis]) briefCount.textContent = BRIEF_LABELS[vis];
+    var fg = pageFigs[String(vis)];
+    if (fg && !fg.classList.contains("in")) fg.classList.add("in");
+    if (briefHint) briefHint.style.opacity = bs.cur > .5 ? "0" : "1";
+  }
+
   function setNav(y){
     navEl.classList.toggle("solid", y > 24);
     if (doc.body.classList.contains("locked")){ navEl.removeAttribute("data-hide"); return; }
@@ -2129,6 +2529,8 @@ body.entered .hero-photo{ transform:scale(1.001); }
       glow.style.transform = "translate3d(" + (ggx - 260).toFixed(1) + "px," + (ggy - 260).toFixed(1) + "px,0)";
     }
 
+    updateBrief();
+
     requestAnimationFrame(frame);
   }
 
@@ -2138,6 +2540,79 @@ body.entered .hero-photo{ transform:scale(1.001); }
     var onS = function(){ navEl.classList.toggle("solid", win.scrollY > 24); };
     win.addEventListener("scroll", onS, { passive: true });
     onS();
+  }
+
+  /* ============ Insights reader ============ */
+  var INS = {
+    bnss: { d: "May 2026", c: "Criminal",
+      t: "Anticipatory bail under the BNSS: what has actually changed",
+      p: [
+        "The Bharatiya Nagarik Suraksha Sanhita has replaced the Code of Criminal Procedure, and with it the provision every client asks about by number. What practitioners knew as Section 438 of the CrPC now lives in Section 482 of the BNSS — and, in substance, the remedy has travelled largely intact: a person apprehending arrest in a non-bailable offence may seek protection in advance from the Court of Session or the High Court.",
+        "What deserves attention is not the renumbering but the practice around it. Courts continue to weigh the gravity of the allegation, the applicant’s antecedents, the possibility of flight, and whether the apprehension of arrest is real or merely speculative. A petition that candidly sets out the FIR, the applicant’s role and a stated willingness to join the investigation is far stronger than one built on adjectives.",
+        "Conditions remain the court’s currency — joining the investigation, surrendering the passport, remaining available. Breach of a condition is the fastest route to cancellation, so compliance is part of the strategy rather than an afterthought.",
+        "One caution for the careful reader: the inherent powers of the High Court, formerly Section 482 of the CrPC, are now Section 528 of the BNSS. The old number now means something new. Cite carefully."
+      ]},
+    service: { d: "March 2026", c: "Service",
+      t: "Seniority, promotion, and the service jurisprudence of the High Court",
+      p: [
+        "Service matters are decided on chronology. Before any argument of law, the court will want the sequence — appointment, confirmation, the gradation lists, the departmental promotion committee, the order under challenge. A petition that establishes this spine in its first two pages is already ahead.",
+        "Seniority disputes usually turn on the rules in force at the time of appointment, and courts are slow to unsettle gradation lists that have stood for years — which is why delay and limitation matter as much as merit.",
+        "In promotion cases, the settled ground is process rather than outcome: whether the committee met, whether adverse entries were communicated before being acted upon, whether a sealed-cover procedure was actually justified. Courts direct reconsideration far more readily than they direct promotion.",
+        "For the officer, the practical advice is unglamorous: secure certified copies of the service book, the representations and the appraisal record early. These cases are won by the record, not the rhetoric."
+      ]},
+    land: { d: "February 2026", c: "Property",
+      t: "Buying agricultural land in Punjab: the due-diligence file",
+      p: [
+        "Agricultural land in this region carries some of its longest memories, and the safest purchase is the one where the paper is read before the price is discussed.",
+        "The core file: the jamabandi — the record of rights — traced back thirty years; the mutation history showing how title travelled between hands; the khasra girdawari for actual possession and cultivation; and a demarcation report wherever boundaries are in doubt.",
+        "Then search beyond the revenue record: pending litigation in the civil courts and the revenue hierarchy, loans and charges noted against the land, acquisition notifications, and consolidation records where they apply.",
+        "Finally, the deed itself — the seller’s identity verified against the record, every co-sharer joined, registration completed and possession delivered without a gap between them. Most land litigation is born in a gap between these steps; the due-diligence file exists to close every one."
+      ]},
+    cheque: { d: "January 2026", c: "Recovery",
+      t: "When a cheque bounces: the timeline that decides the case",
+      p: [
+        "Section 138 of the Negotiable Instruments Act is less a trial of facts than a trial of dates. The statute forgives almost nothing.",
+        "The sequence runs: present the cheque within its period of validity; on dishonour, issue a written demand notice within thirty days of receiving the bank’s memo; the drawer then has fifteen days to pay; and if payment does not come, the complaint must be filed within one month of the cause of action arising.",
+        "Each of those dates must be provable — the returning memo, the dispatch and service of the notice, the drawer’s silence through the fifteen days. A complaint that annexes this chain in order is substantially proved on the day it is filed.",
+        "For drawers, the same calendar is the defence: a notice sent out of time, a complaint filed prematurely, or payment made within the window changes everything. Whichever side of the instrument you stand on, the timeline is the case."
+      ]}
+  };
+  var reader = doc.getElementById("reader");
+  if (reader){
+    var rTitle = doc.getElementById("reader-title");
+    var rDate = doc.getElementById("reader-date");
+    var rCat = doc.getElementById("reader-cat");
+    var rBody = doc.getElementById("reader-body");
+    var rPanel = reader.querySelector(".reader-panel");
+    var rClose = reader.querySelector(".reader-close");
+    var lastFocus = null;
+    var openReader = function(key){
+      var a = INS[key]; if (!a) return;
+      rTitle.textContent = a.t; rDate.textContent = a.d; rCat.textContent = a.c;
+      rBody.innerHTML = a.p.map(function(x){ return "<p>" + x + "</p>"; }).join("");
+      lastFocus = doc.activeElement;
+      reader.removeAttribute("data-hidden");
+      doc.body.classList.add("locked");
+      rPanel.scrollTop = 0;
+      setTimeout(function(){ rClose.focus(); }, 80);
+    };
+    var closeReader = function(){
+      reader.setAttribute("data-hidden", "");
+      if (!gate || gate.hasAttribute("data-hidden")) doc.body.classList.remove("locked");
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    doc.querySelectorAll("[data-ins]").forEach(function(a){
+      a.addEventListener("click", function(e){
+        e.preventDefault();
+        openReader(a.getAttribute("data-ins"));
+      });
+    });
+    reader.addEventListener("click", function(e){
+      if (e.target.closest("[data-close]")) closeReader();
+    });
+    win.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && !reader.hasAttribute("data-hidden")) closeReader();
+    });
   }
 
   /* ============ Year ============ */
