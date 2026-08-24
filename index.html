@@ -209,11 +209,11 @@ section{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .explore-head .eyebrow{justify-content:center}
 .explore-head .eyebrow::after{content:"";width:2.4rem;height:1px;background:var(--brass);flex:none;opacity:.7}
 .explore-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line)}
-.excard{background-color:var(--bg);padding:clamp(2rem,3.5vw,3.5rem);display:grid;align-content:start;gap:1.2rem;cursor:pointer;position:relative;overflow:hidden;transition:background-color .55s var(--ease)}
+.excard{background-color:var(--bg);padding:clamp(1.6rem,2.8vw,2.6rem);display:grid;align-content:space-between;gap:1rem;cursor:pointer;position:relative;overflow:hidden;transition:background-color .55s var(--ease)}
 .excard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--brass);transform:scaleY(0);transform-origin:top;transition:transform .55s var(--ease)}
 .excard:hover{background-color:var(--bg-2)}.excard:hover::after{transform:scaleY(1)}
 .excard .ex-tag{font-size:.62rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--brass)}
-.excard h3{font-size:clamp(1.35rem,2.2vw,1.85rem);max-width:14ch;transition:color .4s var(--ease)}
+.excard h3{font-size:clamp(1.3rem,2vw,1.75rem);max-width:14ch;line-height:1.12;transition:color .4s var(--ease)}
 .excard:hover h3{color:var(--brass)}
 .excard p{font-size:.88rem;line-height:1.7;color:var(--ink-2);max-width:32ch}
 .excard .arr{font-size:1.1rem;color:var(--ink-2);transition:transform .5s var(--ease),color .4s}
